@@ -18,9 +18,9 @@ const (
 	Week    Frequency = "Week"
 )
 
-func dataSourceArmFirstRunConfig() *schema.Resource {
+func dataSourceArmScheduledTime() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceArmFirstRunConfigRead,
+		Read: dataSourceArmScheduledTimeRead,
 		Schema: map[string]*schema.Schema{
 			"frequency": {
 				Type:             schema.TypeString,
@@ -68,7 +68,7 @@ func dataSourceArmFirstRunConfig() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"first_run_time": {
+			"next_run_time": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -76,7 +76,7 @@ func dataSourceArmFirstRunConfig() *schema.Resource {
 	}
 }
 
-func dataSourceArmFirstRunConfigRead(d *schema.ResourceData, meta interface{}) error {
+func dataSourceArmScheduledTimeRead(d *schema.ResourceData, meta interface{}) error {
 
 	var shiftTime int
 	var location *time.Location
@@ -166,7 +166,7 @@ func dataSourceArmFirstRunConfigRead(d *schema.ResourceData, meta interface{}) e
 	}
 
 	d.SetId(time.Now().UTC().String())
-	d.Set("first_run_time", validStartTime.Format(time.RFC3339))
+	d.Set("next_run_time", validStartTime.Format(time.RFC3339))
 
 	return nil
 }
